@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 require 'ruby2d'
 require 'byebug'
 
-set title: "The Game"
+set title: 'The Game'
 set background: :white
 
 def player
@@ -12,7 +14,7 @@ def title(text = 'hello', rotate = 0)
   @title ||= Text.new(
     text,
     font: 'Verdana.ttf',
-    x: get(:width) / 2 , y: get(:height) / 2,
+    x: get(:width) / 2, y: get(:height) / 2,
     size: 20,
     color: 'blue',
     rotate: rotate,
@@ -38,11 +40,11 @@ player
 title
 t = Time.now
 
-DIRECTIONS = %i(up down left right).freeze
+DIRECTIONS = %i[up down left right].freeze
 AXIS_AND_MODIFIERS = {
-  up:    [:y, :height, -1],
-  down:  [:y, :height, 1],
-  left:  [:x, :width, -1],
+  up: [:y, :height, -1],
+  down: [:y, :height, 1],
+  left: [:x, :width, -1],
   right: [:x, :width, 1]
 }.freeze
 
@@ -52,7 +54,7 @@ def move(object, direction)
   value = 0 if value.negative?
 
   window_border_value = send(:get, AXIS_AND_MODIFIERS[direction][1])
-  value = window_border_value - object.send(AXIS_AND_MODIFIERS[direction][1]) if 0 >= (window_border_value - value)
+  value = window_border_value - object.send(AXIS_AND_MODIFIERS[direction][1]) if (window_border_value - value) <= 0
   object.send("#{AXIS_AND_MODIFIERS[direction][0]}=", value)
 end
 
@@ -70,8 +72,8 @@ on :key do |e|
     when 'q'
       close
     when 'r'
-      player.x = 10;
-      player.y = 10;
+      player.x = 10
+      player.y = 10
     end
   else
     case e.key
@@ -90,7 +92,7 @@ end
 update do
   if tick % 60 == 0
   end
-  if tick % 2 == 0
+  if tick.even?
     perform_tick_actions
     reset_tick_actions
   end
